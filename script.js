@@ -3,6 +3,7 @@ const clearButton = document.querySelector(".clear");
 const equalsButton = document.querySelector(".equals");
 const operatorButtons = document.querySelectorAll(".operator");
 const digitButtons = document.querySelectorAll(".digit");
+let isFinished = false;
 
 function add(a, b) {
     return a + b;
@@ -72,6 +73,7 @@ function evaluate() {
 
     // Display result rounded to 2 d.p
     display.textContent = Math.round(expr[0] * 100) / 100;    
+    isFinished = true;
 
 }
 
@@ -83,8 +85,9 @@ equalsButton.addEventListener("click", evaluate);
 
 for (let i = 0; i < operatorButtons.length; i++) {
     operatorButtons[i].addEventListener("click", (e) => {
-        // Only add operator to display if there isn't already an operator added
-        if (display.textContent.length !== 0 && display.textContent.slice(-1) !== " ") {
+        // Only add operator to display if there isn't already an operator added or 
+        // previous result is not being displayed
+        if (display.textContent.length !== 0 && display.textContent.slice(-1) !== " " && !isFinished) {
             display.textContent += ` ${e.target.closest("button").textContent} `;
         } 
     })
@@ -92,6 +95,12 @@ for (let i = 0; i < operatorButtons.length; i++) {
 
 for (let i = 0; i < digitButtons.length; i++) {
     digitButtons[i].addEventListener("click", (e) => {
+        // If previous result is being displayed, clear display first
+        if (isFinished) {
+            display.textContent = "";
+            isFinished = false;
+        }
+
         display.textContent += e.target.closest("button").textContent;
     })
 }
