@@ -1,5 +1,6 @@
 const display = document.querySelector(".display");
 const clearButton = document.querySelector(".clear");
+const equalsButton = document.querySelector(".equals");
 const digitButtons = document.querySelectorAll(".digit");
 
 function add(a, b) {
@@ -32,9 +33,15 @@ function operator(a, b, op) {
     }
 }
 
+function evaluate() {
+
+}
+
 clearButton.addEventListener("click", () => {
     display.textContent = "";
 })
+
+equalsButton.addEventListener("click", evaluate);
 
 for (let i = 0; i < digitButtons.length; i++) {
     digitButtons[i].addEventListener("click", (e) => {
