@@ -1,9 +1,11 @@
 const display = document.querySelector(".display");
 const clearButton = document.querySelector(".clear");
 const equalsButton = document.querySelector(".equals");
+const decimalButton = document.querySelector(".decimal");
 const operatorButtons = document.querySelectorAll(".operator");
 const digitButtons = document.querySelectorAll(".digit");
 let isFinished = false;
+let hasDecimal = false;
 
 function add(a, b) {
     return a + b;
@@ -83,12 +85,30 @@ clearButton.addEventListener("click", () => {
 
 equalsButton.addEventListener("click", evaluate);
 
+decimalButton.addEventListener("click", (e) => {
+    // If previous result is being displayed, clear display first
+    if (isFinished) {
+        display.textContent = "";
+        isFinished = false;
+    }
+
+    // Only add decimal if decimal hasn't been added to number
+    // Only add operator to display if there isn't already an operator added or 
+    // previous result is not being displayed
+    if (!hasDecimal && display.textContent.length !== 0 && display.textContent.slice(-1) !== " " && !isFinished) {
+        display.textContent += e.target.closest("button").textContent;
+        hasDecimal = true;
+    }
+
+})
+
 for (let i = 0; i < operatorButtons.length; i++) {
     operatorButtons[i].addEventListener("click", (e) => {
         // Only add operator to display if there isn't already an operator added or 
         // previous result is not being displayed
         if (display.textContent.length !== 0 && display.textContent.slice(-1) !== " " && !isFinished) {
             display.textContent += ` ${e.target.closest("button").textContent} `;
+            hasDecimal = false;
         } 
     })
 }
