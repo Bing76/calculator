@@ -52,6 +52,12 @@ function evaluate() {
         if (expr.includes("/")) {
             // Find index of operator then use to find a, b to evaluate expression
             const opIdx = expr.indexOf("/");
+            // Check if user is dividing by 0, throw error message
+            if (Number(expr[opIdx + 1]) === 0) {
+                display.textContent = "DIV BY 0";
+                isFinished = true;
+                return;
+            }
             const result = operator(Number(expr[opIdx - 1]), Number(expr[opIdx + 1]), "/");
             // Then replace ["a", "<operator>", "c"] with ["<result>"]
             expr.splice(opIdx - 1, 3, result);
@@ -69,6 +75,7 @@ function evaluate() {
             expr.splice(opIdx - 1, 3, result);
         } else {
             display.textContent("ERROR");
+            isFinished = true
             return;
         }
     }
